@@ -12,25 +12,43 @@ interface CommentSectionProps {
 function formatDate(date: string): string {
   try {
     return formatDistanceToNow(new Date(date), { addSuffix: true });
-  } catch { return ""; }
+  } catch {
+    return "";
+  }
 }
 
 export default function CommentSection({ comments }: CommentSectionProps) {
   const [text, setText] = useState("");
-  const [localComments, setLocalComments] = useState(comments);
+  const [localComments, setLocalComments] = useState<MockComment[]>(comments);
 
   const handleSend = () => {
     if (!text.trim()) return;
+
     setLocalComments((prev) => [
       ...prev,
       {
         id: `local-${Date.now()}`,
         postId: "",
-        user: { name: "Ayşe", username: "ayse_music", bio: "" },
+        user: {
+          name: "Ayşe",
+          username: "ayse_music",
+          bio: "",
+          followers: 0,
+          following: 0,
+          profileBackground: "",
+          musicWill: {
+            title: "",
+            artist: "",
+            cover: "",
+            spotifyUrl: "",
+            note: "",
+          },
+        },
         text: text.trim(),
         createdAt: new Date().toISOString(),
       },
     ]);
+
     setText("");
   };
 
@@ -39,19 +57,30 @@ export default function CommentSection({ comments }: CommentSectionProps) {
       {/* Yorum listesi */}
       <div className="space-y-3 mb-3 max-h-52 overflow-y-auto scrollbar-none">
         {localComments.length === 0 && (
-          <p className="text-xs text-text-faint">Henüz yorum yok. İlk yorumu sen yap.</p>
+          <p className="text-xs text-text-faint">
+            Henüz yorum yok. İlk yorumu sen yap.
+          </p>
         )}
+
         {localComments.map((c) => (
           <div key={c.id} className="flex gap-2.5">
             <div className="w-6 h-6 rounded-full bg-bg border border-border flex items-center justify-center text-[10px] font-semibold text-text-muted flex-shrink-0 mt-0.5">
               {c.user.name.charAt(0).toUpperCase()}
             </div>
+
             <div className="flex-1 min-w-0">
               <div className="flex items-baseline gap-1.5">
-                <span className="text-xs font-medium text-[var(--text)]">@{c.user.username}</span>
-                <span className="text-[10px] text-text-faint">{formatDate(c.createdAt)}</span>
+                <span className="text-xs font-medium text-[var(--text)]">
+                  @{c.user.username}
+                </span>
+                <span className="text-[10px] text-text-faint">
+                  {formatDate(c.createdAt)}
+                </span>
               </div>
-              <p className="text-sm text-text-muted mt-0.5 break-words">{c.text}</p>
+
+              <p className="text-sm text-text-muted mt-0.5 break-words">
+                {c.text}
+              </p>
             </div>
           </div>
         ))}
@@ -62,6 +91,7 @@ export default function CommentSection({ comments }: CommentSectionProps) {
         <div className="w-6 h-6 rounded-full bg-bg border border-border flex items-center justify-center text-[10px] font-semibold text-text-muted flex-shrink-0">
           A
         </div>
+
         <input
           type="text"
           value={text}
@@ -70,6 +100,7 @@ export default function CommentSection({ comments }: CommentSectionProps) {
           placeholder="Yorum yaz..."
           className="flex-1 bg-transparent text-sm text-[var(--text)] placeholder:text-text-faint outline-none border-b border-border-subtle focus:border-accent/50 transition-colors pb-0.5"
         />
+
         <button
           type="button"
           onClick={handleSend}
