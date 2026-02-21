@@ -271,10 +271,15 @@ export default function Post({ post, defaultShowComments = false, onDelete, isOw
             </div>
           )}
 
-          {/* Çalıyor → glow ring */}
-          {showPlayer && (
-            <div className="absolute inset-0 pointer-events-none rounded-xl ring-2 animate-pulse" style={{ zIndex: 6, ringColor: cardAccent, boxShadow: `inset 0 0 0 2px ${cardAccent}60` }} />
-          )}
+{showPlayer && (
+  <div
+    className="absolute inset-0 pointer-events-none rounded-xl animate-pulse"
+    style={{
+      zIndex: 6,
+      boxShadow: `0 0 0 2px ${cardAccent}, inset 0 0 0 2px ${cardAccent}60`
+    }}
+  />
+)}
 
           {/* Çalıyor → ekolayzır sol alt */}
           {showPlayer && (
