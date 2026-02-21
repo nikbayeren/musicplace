@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap');
+
+:root {
+  --bg: #0c0c0b;
+  --bg-elevated: #141412;
+  --text: #ebe7e0;
+  --text-muted: #7a756d;
+  --text-faint: #5c5852;
+  --accent: #c4a35a;
+  --accent-hover: #d4b86a;
+  --border: #252420;
+  --border-subtle: #1c1b18;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01", "ss02";
+}
+
+.font-serif {
+  font-family: 'Instrument Serif', Georgia, serif;
+}
+
+/* Daha insan dokunuşlu focus / seçim */
+::selection {
+  background: rgba(196, 163, 90, 0.25);
+  color: var(--text);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-faint);
+}
+
+/* Profil arka planı görselken başlık/bio/istatistik yazıları okunaklı */
+.profile-bg-image .profile-header-text,
+.profile-bg-image .profile-header-text p,
+.profile-bg-image .profile-header-text h1,
+.profile-bg-image .profile-header-text span,
+.profile-bg-image .profile-header-text button {
+  text-shadow: 0 1px 6px rgba(0,0,0,0.98), 0 0 20px rgba(0,0,0,0.6), 0 2px 4px rgba(0,0,0,0.95);
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+/* Çalıyor — ekolayzer animasyonu */
+@keyframes eq1 { 0%,100%{height:4px} 50%{height:14px} }
+@keyframes eq2 { 0%,100%{height:10px} 50%{height:4px} }
+@keyframes eq3 { 0%,100%{height:6px} 50%{height:12px} }
+
+.eq-bar { display:inline-block; width:3px; border-radius:2px; background:currentColor; }
+.eq-bar:nth-child(1){ animation: eq1 0.7s ease-in-out infinite; }
+.eq-bar:nth-child(2){ animation: eq2 0.7s ease-in-out infinite 0.15s; }
+.eq-bar:nth-child(3){ animation: eq3 0.7s ease-in-out infinite 0.3s; }
+
+/* Uçan nota animasyonu */
+@keyframes noteFloat {
+  0%   { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
+  60%  { opacity: 1; }
+  100% { transform: translateY(-80px) translateX(var(--tx, 0px)) scale(0.6); opacity: 0; }
+}
+
+.note-particle {
+  position: absolute;
+  pointer-events: none;
+  font-size: 16px;
+  animation: noteFloat 0.9s ease-out forwards;
+  color: var(--accent);
+  line-height: 1;
+}
+
+/* Anonim drop açılış animasyonu */
+@keyframes dropReveal {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Mobil düzeltmeleri ───────────────────────── */
+@media (max-width: 640px) {
+  /* Post kartı: küçük ekranda yatay layout'u koru, resmi küçült */
+  .post-thumbnail {
+    width: 6rem !important;
+    height: 6rem !important;
+    min-width: 6rem !important;
+  }
+
+  /* Header nav item'larını daralt */
+  nav { gap: 1rem !important; }
+
+  /* Modal'lar tam ekran alt-sheet olsun */
+  .modal-sheet {
+    border-radius: 1rem 1rem 0 0 !important;
+    max-height: 90dvh !important;
+    width: 100% !important;
+  }
+
+  /* Collection grid: 1 sütun */
+  .collection-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Platform badge'leri küçük ekranda ikonlara dönüşsün */
+  .platform-badge-text {
+    display: none;
+  }
+
+  /* Feed sekme */
+  .feed-tab-bar {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+}
